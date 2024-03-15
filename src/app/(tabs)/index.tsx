@@ -4,8 +4,10 @@ import { Image, Pressable, ScrollView, Text, View } from 'react-native'
 
 import { Cards } from '@/components/cards'
 import { Filters } from '@/components/filters'
+import { HighCard } from '@/components/high-card'
 import { CARD } from '@/utils/card-music'
 import { FILTER } from '@/utils/filter'
+import { PLAYLIST } from '@/utils/playlist'
 
 export default function Home() {
   const [filters, setFilters] = useState(FILTER[0])
@@ -20,13 +22,11 @@ export default function Home() {
         </Pressable>
       </View>
 
-      <View className="bg-green-900 rounded-3xl p-5 mt-5">
-        <Text className="font-heading text-xs text-white">New Album</Text>
-        <Text className="font-heading text-2xl text-white">
-          Happier Than Ever
-        </Text>
-        <Text className="font-heading text-white">Billie Eilish</Text>
-      </View>
+      <HighCard
+        title="New Album"
+        music="Happy Tha Ever"
+        artistic="Billie Eillish"
+      />
 
       <View className=" mt-10">
         <Filters filters={FILTER} filter={filters} onChange={setFilters} />
@@ -42,13 +42,35 @@ export default function Home() {
           <Text className="text-gray-200 font-body text-xs">See More</Text>
         </View>
 
-        <ScrollView className="mt-6">
-          <Text className="text-gray-100 font-heading text-base">
-            As it was
-          </Text>
-          <Text className="text-gray-200 font-body text-xs">Harry Style</Text>
-
-          <Text className="text-gray-200 font-body text-xs">5:45</Text>
+        <ScrollView
+          className="mt-6"
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{
+            paddingBottom: 58,
+          }}
+        >
+          {PLAYLIST.map((item, index) => {
+            return (
+              <View
+                key={index}
+                className="flex-row justify-between items-center gap-6 mb-5"
+              >
+                <MaterialIcons name="play-circle" color="gray" size={25} />
+                <View className="flex-1">
+                  <Text className="text-gray-100 font-heading text-base">
+                    {item.music}
+                  </Text>
+                  <Text className="text-gray-200 font-body text-xs">
+                    {item.artistic}
+                  </Text>
+                </View>
+                <Text className="text-gray-200 font-body text-xs">
+                  {item.duration}
+                </Text>
+                <MaterialIcons name="favorite" color="gray" size={25} />
+              </View>
+            )
+          })}
         </ScrollView>
       </View>
     </View>
